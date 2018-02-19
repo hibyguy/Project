@@ -24,8 +24,10 @@ app.get('/findPhoneNumbers/:str', (req, res) => {
     }
 
     // findPhoneNumbers() always return an array
-    let result = findPhoneNumbers(req.params.str);
-    res.json(result);
+    var numbers = req.params.str.toString().split(' ');
+    var phonelist = findPhoneNumbers(numbers);
+    //let result = findPhoneNumbers(req.params.str);
+    res.json(phonelist);
 });
 
 // Form GET
@@ -36,7 +38,8 @@ app.get('/findPhoneNumbers/', (req, res) => {
     }
 
     // findPhoneNumbers() always return an array
-    let result = findPhoneNumbers(req.query.getRq);
+    var numbers = req.query.getRq.toString().split(' ');
+    let result = findPhoneNumbers(numbers);
     res.json(result);
 });
 
@@ -49,15 +52,15 @@ app.post('/file', fileUpload.single("file"), function(req, res) {
 
     let fileRaw = fs.readFileSync(req.file.path);
     let fileContent = Buffer.from(fileRaw, 'base64').toString('ascii');
-    
-    let result = findPhoneNumbers(fileContent);
+    var list = fileContent.toString().split('\n');
+    let result = findPhoneNumbers(list);
     res.json(result);
 
 });
 
 function findPhoneNumbers(str){
     
-    var arr = str.split('\n');
+    var arr = str;
     var numberArr = [];
     var phoneNumberArr = [];
     
